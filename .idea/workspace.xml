@@ -11,8 +11,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e67e31b5-ddb9-4efe-840a-bb1f26b2d75e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/model/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/controller/controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/handler/handler.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controller/db.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controller/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controller/handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/model/bank.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/model/bank.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,8 +63,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/utils" />
       <recent name="$PROJECT_DIR$/app/controller" />
-      <recent name="$PROJECT_DIR$/app/config" />
+      <recent name="$PROJECT_DIR$/app/model" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/tester/config" />
     </key>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -73,11 +83,20 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1172" y="390" width="400" height="334" key="#Go_Modules" timestamp="1600606164075">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="1172" y="390" width="400" height="334" key="#Go_Modules/67.27.1853.1053@67.27.1853.1053" timestamp="1600606164075" />
+    <state x="684" y="292" width="724" height="522" key="find.popup" timestamp="1600699879348">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="684" y="292" width="724" height="522" key="find.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1600699879348" />
+    <state x="656" y="259" width="672" height="678" key="search.everywhere.popup" timestamp="1600693417576">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="656" y="259" width="672" height="678" key="search.everywhere.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1600693417576" />
   </component>
 </project>
