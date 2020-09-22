@@ -1,9 +1,11 @@
 package model
 
 import (
+	"github.com/FadhlanHawali/Digitalent-Kominfo_Implementation-MVC-Golang/app/constant"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 	"log"
+	"time"
 )
 
 type Account struct {
@@ -16,12 +18,12 @@ type Account struct {
 
 type Transaction struct {
 	ID int `gorm:"primary_key" json:"-"`
-	TransactionType int `json:"transaction_type"`
+	TransactionType int `json:"transaction_type,omitempty"`
 	TransactionDescription string `json:"transaction_description"`
 	Sender int `json:"sender"`
 	Amount int `json:"amount"`
 	Recipient int `json:"recipient"`
-	Timestamp int `json:"timestamp"`
+	Timestamp int64 `json:"timestamp,omitempty"`
 }
 
 func InsertNewAccount(account Account) (bool,error){
@@ -63,7 +65,8 @@ func Transfer (transaction Transaction) (bool,error){
 			log.Println("ERROR : " + err.Error())
 			return err
 		}
-
+		transaction.TransactionType = constant.TRANSFER
+		transaction.Timestamp = time.Now().Unix()
 		if err := tx.Create(&transaction).Error;err != nil {
 			return err
 		}
@@ -84,6 +87,8 @@ func Withdraw (transaction Transaction) (bool,error){
 			// return any error will rollback
 			return err
 		}
+		transaction.TransactionType = constant.WITHDRAW
+		transaction.Timestamp = time.Now().Unix()
 		if err := tx.Create(&transaction).Error;err != nil {
 			return err
 		}
@@ -104,6 +109,8 @@ func Deposit (transaction Transaction) (bool,error){
 			// return any error will rollback
 			return err
 		}
+		transaction.TransactionType = constant.DEPOSIT
+		transaction.Timestamp = time.Now().Unix()
 		if err := tx.Create(&transaction).Error;err != nil {
 			// return any error will rollback
 			return err
