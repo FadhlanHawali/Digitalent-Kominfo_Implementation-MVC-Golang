@@ -1,7 +1,10 @@
 package model
 
 import (
+	"fmt"
 	"github.com/FadhlanHawali/Digitalent-Kominfo_Implementation-MVC-Golang/app/constant"
+	"github.com/FadhlanHawali/Digitalent-Kominfo_Implementation-MVC-Golang/app/utils"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 	"log"
@@ -10,10 +13,16 @@ import (
 
 type Account struct {
 	ID int                    `gorm:"primary_key" json:"-"`
-	IdAccount string          `json:"id_account"`
+	IdAccount string          `json:"id_account,omitempty"`
 	Name string               `json:"name"`
-	AccountNumber int         `json:"account_number"`
+	Password string 		  `json:"password,omitempty"`
+	AccountNumber int         `json:"account_number,omitempty"`
 	Saldo int                 `json:"saldo"`
+}
+
+type Auth struct {
+	Name string `json:"name"`
+	Password string `json:"password"`
 }
 
 type Transaction struct {
@@ -26,25 +35,68 @@ type Transaction struct {
 	Timestamp int64 `json:"timestamp,omitempty"`
 }
 
+func Login(auth Auth) (bool,error,string){
+	var account Account
+	if err := DB.Where(&Account{Name: auth.Name}).First(&account).Error; err!=nil{
+		if err == gorm.ErrRecordNotFound{
+			return false,errors.Errorf("Account not found"),""
+		}
+	}
+
+	err := utils.HashComparator([]byte(account.Password),[]byte(auth.Password))
+	if err != nil{
+		return false, errors.Errorf("Incorrect Password"),""
+	} else {
+
+		sign := jwt.NewWithClaims(jwt.SigningMethodHS256,jwt.MapClaims{
+			"name":auth.Name,
+			"account_number":account.AccountNumber,
+		})
+
+		token ,err := sign.SignedString([]byte("secret"))
+		if err != nil {
+			return false,err,""
+		}
+		return true,nil,token
+	}
+}
+
 func InsertNewAccount(account Account) (bool,error){
+	account.AccountNumber = utils.RangeIn(111111,999999)
+	account.Saldo = 0
+	account.IdAccount = fmt.Sprintf("id-%d",utils.RangeIn(111,999))
 	if err := DB.Create(&account).Error;err!=nil{
 		return false, errors.Errorf("invalid prepare statement :%+v\n", err)
 	}
 	return true,nil
 }
 
-func GetAccountDetail(idAccount int) (bool,error, []Transaction){
+func GetAccountDetail(idAccount int) (bool,error, []Transaction,Account){
 	var transaction []Transaction
+	var account Account
 	if err := DB.Where("sender = ? OR recipient = ?",idAccount,idAccount).
 		Find(&transaction).Error;err!=nil{
 		if err == gorm.ErrRecordNotFound{
-			return false,errors.Errorf("Account not found"), []Transaction{}
+			return false,errors.Errorf("Account not found"), []Transaction{},Account{}
 		} else {
-			return false, errors.Errorf("invalid prepare statement :%+v\n", err), []Transaction{}
+			return false, errors.Errorf("invalid prepare statement :%+v\n", err), []Transaction{},Account{}
 		}
 	}
 
-	return true,nil,transaction
+	if err := DB.Where(&Account{AccountNumber: idAccount}).Find(&account).Error;err != nil{
+		if err == gorm.ErrRecordNotFound{
+			return false,errors.Errorf("Account not found"), []Transaction{},Account{}
+		} else {
+			return false, errors.Errorf("invalid prepare statement :%+v\n", err), []Transaction{},Account{}
+		}
+	}
+
+	return true,nil,transaction,Account{
+		IdAccount:     account.IdAccount,
+		Name:          account.Name,
+		AccountNumber: account.AccountNumber,
+		Saldo:         account.Saldo,
+	}
 }
 
 func Transfer (transaction Transaction) (bool,error){
