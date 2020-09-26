@@ -11,6 +11,7 @@ func main(){
 	router := gin.Default()
 	router.Use(cors.Default())
 	router.POST("/api/v1/account/add", controller.CreateAccount)
+	router.POST("/api/v1/login",middleware.Auth,controller.GetAccount)
 	router.GET("/api/v1/account/:idAccount", controller.GetAccount)
 	router.POST("/api/v1/transfer",controller.Transfer)
 	router.POST("/api/v1/withdraw",controller.Withdraw)
