@@ -17,6 +17,6 @@ func main(){
 	router.POST("/api/v1/transfer",middleware.Auth,controller.Transfer)
 	router.POST("/api/v1/withdraw",middleware.Auth,controller.Withdraw)
 	router.POST("/api/v1/deposit",middleware.Auth,controller.Deposit)
-	router.Run(":8080")
+	router.Run(":8081")
 }
 
